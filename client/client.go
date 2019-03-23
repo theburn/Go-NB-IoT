@@ -1,12 +1,10 @@
 package client
 
 import (
-	"Go-NB-IoT/common"
 	"Go-NB-IoT/configure"
 	log "Go-NB-IoT/logging"
 	"crypto/tls"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/valyala/fasthttp"
@@ -14,6 +12,7 @@ import (
 
 type NBHttpClient struct {
 	client   *fasthttp.Client
+	createAt time.Time
 	authInfo loginResponse
 }
 
@@ -57,7 +56,7 @@ func (c *NBHttpClient) Login() error {
 	args.Add("secret", configure.NBIoTConfig.ReqParam.Secret)
 
 	req := fasthttp.AcquireRequest()
-	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + common.LoginURI)
+	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + LoginURI)
 	req.Header.SetMethod("POST")
 	req.Header.SetContentType("application/x-www-form-urlencoded")
 	req.SetBody(args.QueryString())
@@ -74,7 +73,43 @@ func (c *NBHttpClient) Login() error {
 		return err
 	}
 
-	fmt.Println(c.authInfo)
+	c.createAt = time.Now()
+
+	log.Info("Login Successed!")
+
+	return nil
+
+}
+
+func (c *NBHttpClient) RefreshToken() error {
+
+	jsonArgs := map[string]string{
+		"appId":        configure.NBIoTConfig.ReqParam.AppID,
+		"secret":       configure.NBIoTConfig.ReqParam.Secret,
+		"refreshToken": c.authInfo.RefreshToken,
+	}
+
+	reqBody, _ := json.Marshal(jsonArgs)
+
+	req := fasthttp.AcquireRequest()
+	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + RefreshTokenURI)
+	req.Header.SetMethod("POST")
+	req.Header.SetContentType("application/json")
+	req.SetBody(reqBody)
+
+	resp := fasthttp.AcquireResponse()
+
+	if err := c.client.Do(req, resp); err != nil {
+		log.Error("Refresh is Failed!", err)
+		return err
+	}
+
+	if err := json.Unmarshal(resp.Body(), &c.authInfo); err != nil {
+		log.Errorf("resp body unmarshal failed! %s, %s", string(resp.Body()), err)
+		return err
+	}
+
+	c.createAt = time.Now()
 
 	return nil
 
