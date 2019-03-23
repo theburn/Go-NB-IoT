@@ -1,2 +1,4 @@
 package: Go-NB-IoT
-import: []
+import:
+- package: github.com/valyala/fasthttp
+  version: ~20180529.0.0

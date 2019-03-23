@@ -4,7 +4,7 @@ import (
 	"flag"
 	"time"
 
-	"Go-NB-IoT/auth"
+	"Go-NB-IoT/client"
 	"Go-NB-IoT/configure"
 	log "Go-NB-IoT/logging"
 )
@@ -35,11 +35,16 @@ func main() {
 		return
 	}
 
-	//log.SetMaxLogDay(7)
+	log.SetMaxLogDay(7)
 
 	// output system info
 	log.Info("-----------------START----------------")
 	log.Info("start go-nb-iot: ", version)
 
-	auth.Login()
+	if c, err := client.NewNBHttpClient(); err != nil {
+		log.Error("New Client error", err)
+	} else {
+		c.Login()
+	}
+
 }

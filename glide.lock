@@ -1,4 +1,19 @@
-hash: 7f67396f558c9c714ee41c5b76ce2d4e3f6849e920fc24f7078cfe7be9c228c0
-updated: 2019-03-23T11:55:28.613446568+08:00
-imports: []
+hash: 63ca33f4b9e4eb6fd790aa1944d13e5a99408387be392c5e65160c2514d5a57a
+updated: 2019-03-23T20:37:06.794168029+08:00
+imports:
+- name: github.com/klauspost/compress
+  version: ea08389e0dc46025380296f7dd04ab0e8de36adb
+  subpackages:
+  - flate
+  - gzip
+  - zlib
+- name: github.com/klauspost/cpuid
+  version: ae7887de9fa5d2db4eaa8174a7eff2c1ac00f2da
+- name: github.com/valyala/bytebufferpool
+  version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
+- name: github.com/valyala/fasthttp
+  version: e5f51c11919d4f66400334047b897ef0a94c6f3c
+  subpackages:
+  - fasthttputil
+  - stackless
 testImports: []
