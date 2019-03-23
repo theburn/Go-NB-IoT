@@ -24,6 +24,14 @@ type loginResponse struct {
 	Scope        string `json:"scope"`
 }
 
+type RequestParam struct {
+	URL         string
+	Method      string `default:"POST"`
+	ContentType string `default:"application/json"`
+	ReqBody     []byte
+	RespBody    []byte
+}
+
 func NewNBHttpClient() (*NBHttpClient, error) {
 	cert, err := tls.LoadX509KeyPair(configure.NBIoTConfig.ReqParam.CertFile,
 		configure.NBIoTConfig.ReqParam.KeyFile)
@@ -111,6 +119,41 @@ func (c *NBHttpClient) RefreshToken() error {
 
 	c.createAt = time.Now()
 
+	log.Info("RefreshToken Successed!")
+
 	return nil
 
+}
+
+func (c *NBHttpClient) tokenIsExpire() bool {
+
+	// if the time of token is  less than 5 min.  refresh it.
+	if int64(time.Now().Sub(c.createAt).Seconds())+300 > c.authInfo.ExpiresIn {
+		return true
+	}
+
+	return false
+}
+
+func (c *NBHttpClient) Request(reqParam *RequestParam) error {
+
+	req := fasthttp.AcquireRequest()
+	req.SetRequestURI(reqParam.URL)
+	req.Header.SetMethod(reqParam.Method)
+	req.Header.SetContentType(reqParam.ContentType)
+	req.SetBody(reqParam.ReqBody)
+
+	resp := fasthttp.AcquireResponse()
+
+	if c.tokenIsExpire() {
+		c.RefreshToken()
+	}
+
+	if err := c.client.Do(req, resp); err != nil {
+		log.Error("Request is Failed!", err)
+		return err
+	}
+
+	reqParam.RespBody = resp.Body()
+	return nil
 }

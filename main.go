@@ -45,7 +45,6 @@ func main() {
 		log.Error("New Client error", err)
 	} else {
 		c.Login()
-		c.RefreshToken()
 	}
 
 }
