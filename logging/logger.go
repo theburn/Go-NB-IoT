@@ -1,5 +1,6 @@
-//high level log wrapper, so it can output different log based on level
 package logging
+
+/* from gwuhaolin/livego  loggin*/
 
 import (
 	"fmt"

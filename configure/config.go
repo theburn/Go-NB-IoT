@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 )
 
+/* from gwuhaolin/livego configure */
+
 /*
 {
 "req_param" : {
