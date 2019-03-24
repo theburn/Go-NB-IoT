@@ -13,7 +13,7 @@
 
 config.json
 
-certs/*
-logs/*
+examples/certs/*
+examples/logs/*
 
 vendor
