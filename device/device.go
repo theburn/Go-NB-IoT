@@ -5,7 +5,6 @@ import (
 	"Go-NB-IoT/configure"
 	log "Go-NB-IoT/logging"
 	"encoding/json"
-	"fmt"
 )
 
 type DeviceCredentials struct {
@@ -42,25 +41,40 @@ type DeviceProfile struct {
 	Psk              string          `json:"psk"`
 }
 
-func (d *DeviceCredentials) RegisterDevice(c *client.NBHttpClient) error {
+type DeviceIdInfo struct {
+	DeviceId   string `json:"deviceId"`
+	VerifyCode string `json:"verifyCode"`
+	Timeout    int    `json:"timeout"`
+	Psk        string `json:"psk"`
+}
 
-	reqParam := client.RequestParam{}
-	reqParam.URL = configure.NBIoTConfig.ReqParam.IoTHost +
+func (d *DeviceCredentials) RegisterDevice(c *client.NBHttpClient) (*DeviceIdInfo, error) {
+
+	reqRespParam := client.ReqRespParam{}
+	reqRespParam.URL = configure.NBIoTConfig.ReqParam.IoTHost +
 		registerDeviceURI + configure.NBIoTConfig.ReqParam.AppID
 
-	reqParam.Method = "POST"
-	reqParam.ContentType = "application/json"
+	reqRespParam.Method = "POST"
+	reqRespParam.ContentType = "application/json"
 
 	var err error
 
-	if reqParam.ReqBody, err = json.Marshal(d); err != nil {
+	if reqRespParam.ReqBody, err = json.Marshal(d); err != nil {
 		log.Error("json Marshal Failed, ", d, err)
-		return err
+		return nil, err
 	}
 
-	err = c.Request(&reqParam)
+	if err = c.Request(&reqRespParam); err != nil {
+		log.Error("Request error!", err)
+		return nil, err
+	}
 
-	fmt.Println(string(reqParam.RespBody))
+	var deviceIdInfo DeviceIdInfo
 
-	return err
+	if err = json.Unmarshal(reqRespParam.RespBody, &deviceIdInfo); err != nil {
+		log.Error("json DeviceIdInfo Unmarshal Failed, ", reqRespParam.RespBody, err)
+		return nil, err
+	}
+
+	return &deviceIdInfo, err
 }

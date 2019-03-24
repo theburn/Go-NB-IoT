@@ -24,7 +24,7 @@ type loginResponse struct {
 	Scope        string `json:"scope"`
 }
 
-type RequestParam struct {
+type ReqRespParam struct {
 	URL         string
 	Method      string `default:"POST"`
 	ContentType string `default:"application/json"`
@@ -135,13 +135,13 @@ func (c *NBHttpClient) tokenIsExpire() bool {
 	return false
 }
 
-func (c *NBHttpClient) Request(reqParam *RequestParam) error {
+func (c *NBHttpClient) Request(reqRespParam *ReqRespParam) error {
 
 	req := fasthttp.AcquireRequest()
-	req.SetRequestURI(reqParam.URL)
-	req.Header.SetMethod(reqParam.Method)
-	req.Header.SetContentType(reqParam.ContentType)
-	req.SetBody(reqParam.ReqBody)
+	req.SetRequestURI(reqRespParam.URL)
+	req.Header.SetMethod(reqRespParam.Method)
+	req.Header.SetContentType(reqRespParam.ContentType)
+	req.SetBody(reqRespParam.ReqBody)
 
 	req.Header.Add("app_key", configure.NBIoTConfig.ReqParam.AppID)
 	req.Header.Add("Authorization", "Bearer "+c.authInfo.AccessToken)
@@ -157,6 +157,6 @@ func (c *NBHttpClient) Request(reqParam *RequestParam) error {
 		return err
 	}
 
-	reqParam.RespBody = resp.Body()
+	reqRespParam.RespBody = resp.Body()
 	return nil
 }

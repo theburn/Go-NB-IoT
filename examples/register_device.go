@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"time"
 
 	"Go-NB-IoT/client"
@@ -54,7 +55,8 @@ func main() {
 		log.Error("New Client error", err)
 	} else {
 		c.Login()
-		d.RegisterDevice(c)
+		d, _ := d.RegisterDevice(c)
+		fmt.Println(d)
 
 	}
 
