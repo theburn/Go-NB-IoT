@@ -1,5 +1,5 @@
-package client
+package device
 
 const (
-	RegisterDeviceURI string = "/iocm/app/reg/v1.1.0/deviceCredentials?appId="
+	registerDeviceURI string = "/iocm/app/reg/v1.1.0/deviceCredentials?appId="
 )

@@ -51,7 +51,7 @@ func NewNBHttpClient() (*NBHttpClient, error) {
 	c.client = &fasthttp.Client{
 		TLSConfig:           tlsConfig,
 		MaxConnsPerHost:     200,
-		MaxIdleConnDuration: 120 * time.Second,
+		MaxIdleConnDuration: 60 * time.Second,
 	}
 
 	return c, nil
@@ -64,7 +64,7 @@ func (c *NBHttpClient) Login() error {
 	args.Add("secret", configure.NBIoTConfig.ReqParam.Secret)
 
 	req := fasthttp.AcquireRequest()
-	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + LoginURI)
+	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + loginURI)
 	req.Header.SetMethod("POST")
 	req.Header.SetContentType("application/x-www-form-urlencoded")
 	req.SetBody(args.QueryString())
@@ -100,7 +100,7 @@ func (c *NBHttpClient) RefreshToken() error {
 	reqBody, _ := json.Marshal(jsonArgs)
 
 	req := fasthttp.AcquireRequest()
-	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + RefreshTokenURI)
+	req.SetRequestURI(configure.NBIoTConfig.ReqParam.IoTHost + refreshTokenURI)
 	req.Header.SetMethod("POST")
 	req.Header.SetContentType("application/json")
 	req.SetBody(reqBody)
@@ -142,6 +142,9 @@ func (c *NBHttpClient) Request(reqParam *RequestParam) error {
 	req.Header.SetMethod(reqParam.Method)
 	req.Header.SetContentType(reqParam.ContentType)
 	req.SetBody(reqParam.ReqBody)
+
+	req.Header.Add("app_key", configure.NBIoTConfig.ReqParam.AppID)
+	req.Header.Add("Authorization", "Bearer "+c.authInfo.AccessToken)
 
 	resp := fasthttp.AcquireResponse()
 
