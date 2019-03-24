@@ -1,3 +1,7 @@
+
+## 1. Config File Example
+
+```json
 {
 "req_param" : {
     "cert_file": "certs/server.crt",
@@ -15,3 +19,4 @@
     "device_model": "SZDTSDevice"
     }
 }
+```
