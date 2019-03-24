@@ -44,11 +44,37 @@ func main() {
 	log.Info("start go-nb-iot: ", version)
 
 	d := device.DeviceCredentials{
-		VerifyCode: "9af17b52-4393-426e-958b-21ba27ebcf29",
-		NodeId:     "9af17b52-4393-426e-958b-21ba27ebcf29",
+		VerifyCode: "359369080878768",
+		NodeId:     "359369080878768",
 		EndUserId:  "112233445",
 		Timeout:    0,
 		IsSecure:   false,
+	}
+
+	dataConfig := device.DataConfigDTO{
+		DataAgingTime: 7,
+	}
+
+	deviceConfig := device.DeviceConfigDTO{
+		DataConfig: dataConfig,
+	}
+
+	p := device.DeviceProfile{
+		Name:             "SZDTestDevice001",
+		EndUser:          "SZD",
+		Mute:             "FALSE",
+		ManufacturerID:   "SZDTS001",
+		ManufacturerName: "SZD",
+		DeviceType:       "Water",
+		Model:            "SZDTSDevice",
+		Location:         "Shanghai",
+		ProtocolType:     "CoAP",
+		DeviceConfig:     deviceConfig,
+		Region:           "Shanghai",
+		Organization:     "SZDTest",
+		TimeZone:         "Asia/Shanghai",
+		IsSecure:         false,
+		//Psk:              "00aaAA11bbBB",
 	}
 
 	if c, err := client.NewNBHttpClient(); err != nil {
@@ -56,7 +82,9 @@ func main() {
 	} else {
 		c.Login()
 		d, _ := d.RegisterDevice(c)
-		fmt.Println(d)
+		fmt.Printf("%v\n", d)
+
+		d.ModifyDeviceInfo(c, p)
 
 	}
 

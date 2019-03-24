@@ -5,6 +5,7 @@ import (
 	"Go-NB-IoT/configure"
 	log "Go-NB-IoT/logging"
 	"encoding/json"
+	"fmt"
 )
 
 type DeviceCredentials struct {
@@ -29,7 +30,7 @@ type DeviceProfile struct {
 	Mute             string          `json:"mute"` // TRUE , FALSE
 	ManufacturerID   string          `json:"manufacturerId"`
 	ManufacturerName string          `json:"manufacturerName"`
-	DeviceType       string          `json:"deviceType"`
+	DeviceType       string          `json:"deviceType"` // must keep same with profile
 	Model            string          `json:"model"`
 	Location         string          `json:"location"`
 	ProtocolType     string          `json:"protocolType"`
@@ -38,7 +39,7 @@ type DeviceProfile struct {
 	Organization     string          `json:"organization"`
 	TimeZone         string          `json:"timezone"`
 	IsSecure         bool            `json:"isSecure"`
-	Psk              string          `json:"psk"`
+	//	Psk              string          `json:"psk"` // not use psk ,unless use encrypt
 }
 
 type DeviceIdInfo struct {
@@ -77,4 +78,28 @@ func (d *DeviceCredentials) RegisterDevice(c *client.NBHttpClient) (*DeviceIdInf
 	}
 
 	return &deviceIdInfo, err
+}
+
+func (d *DeviceIdInfo) ModifyDeviceInfo(c *client.NBHttpClient, p DeviceProfile) error {
+
+	reqRespParam := client.ReqRespParam{}
+	reqRespParam.URL = fmt.Sprintf(configure.NBIoTConfig.ReqParam.IoTHost+
+		modifyDeviceInfoURI, d.DeviceId, configure.NBIoTConfig.ReqParam.AppID)
+
+	reqRespParam.Method = "PUT"
+	reqRespParam.ContentType = "application/json"
+
+	var err error
+
+	if reqRespParam.ReqBody, err = json.Marshal(p); err != nil {
+		log.Error("DeviceProfile Marshal Failed!", err)
+		return err
+	}
+
+	if err = c.Request(&reqRespParam); err != nil {
+		log.Error("ModifyDeviceInfo Request Failed!", err)
+		return err
+	}
+
+	return nil
 }
