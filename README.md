@@ -3,7 +3,7 @@
 
 ```json
 {
-    "server_param" {
+    "server_param" :{
         "listen_port":  "9880",
         "static_path": "/usr/local/Go-NB-IoT/static"
     },
