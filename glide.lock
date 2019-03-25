@@ -1,6 +1,8 @@
-hash: 63ca33f4b9e4eb6fd790aa1944d13e5a99408387be392c5e65160c2514d5a57a
-updated: 2019-03-23T20:37:06.794168029+08:00
+hash: 6628535ae6982a96b4b022f1b7a83d4de8b0a1dcc1f2160239299cc8f8e705d3
+updated: 2019-03-24T16:15:55.128571286+08:00
 imports:
+- name: github.com/buaazp/fasthttprouter
+  version: ade4e2031af3aed7fffd241084aad80a58faf421
 - name: github.com/klauspost/compress
   version: ea08389e0dc46025380296f7dd04ab0e8de36adb
   subpackages:

@@ -10,14 +10,19 @@ import (
 
 /*
 {
-"req_param" : {
-    "cert_file": "certs/server.crt",  # from IoT-platform
-    "key_file": "certs/server.key",   # from IoT-platform
-    "iot_host": "https://180.101.147.89:8743",
-    "app_id": "<APP ID>",
-    "secret": "<SECRET>"
+    "server_param" {
+        "listen_port":  "9880",
+		"static_path": "/usr/local/Go-NB-IoT/static"
+    },
+    "req_param" : {
+        "cert_file": "certs/server.crt",
+        "key_file": "certs/server.key",
+        "iot_host": "https://180.101.147.89:8743",
+        "app_id": "<AppID>",
+        "secret": "<SECRET>"
     }
 }
+
 */
 
 type ReqParam struct {
@@ -28,8 +33,14 @@ type ReqParam struct {
 	Secret   string `json:"secret"`
 }
 
+type ServerParam struct {
+	ListenPort string `json:"listen_port"`
+	StaticPath string `json:"static_path"`
+}
+
 type Config struct {
-	ReqParam ReqParam `json:"req_param"`
+	ReqParam    ReqParam    `json:"req_param"`
+	ServerParam ServerParam `json:"server_param"`
 }
 
 var NBIoTConfig Config
@@ -42,13 +53,13 @@ func LoadConfig(configfilename string) error {
 		return err
 	}
 
-	log.Infof("loadconfig: \r\n%s", string(data))
+	log.Debugf("loadconfig: \r\n%s", string(data))
 
 	err = json.Unmarshal(data, &NBIoTConfig)
 	if err != nil {
 		log.Errorf("json.Unmarshal error:%v", err)
 		return err
 	}
-	log.Infof("get config json data:%v", NBIoTConfig)
+	log.Debugf("get config json data:%v", NBIoTConfig)
 	return nil
 }
