@@ -1,10 +1,9 @@
 package api
 
 import (
+	"Go-NB-IoT/amqp"
 	"Go-NB-IoT/configure"
 	log "Go-NB-IoT/logging"
-	"Go-NB-IoT/utils"
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -29,22 +28,25 @@ type deviceDataChanged struct {
 
 func CallBackDeviceDataChanged(ctx *fasthttp.RequestCtx) {
 
-	var httpDeviceDataChanged deviceDataChanged
+	//var httpDeviceDataChanged deviceDataChanged
 
 	log.Debug(">>>> String", string(ctx.PostBody()))
 
-	if string(ctx.PostBody()) == "push success." {
-		log.Info("Test Push Success! ")
+	/*
+		// Telecom Test
+			if string(ctx.PostBody()) == "push success." {
+				log.Info("Test Push Success! ")
+				ctx.SetStatusCode(200)
+			} else {
+				amqp.AMQPSend(amqp.DefaultQueueName, amqp.DefaultContentType, ctx.PostBody())
+				ctx.SetStatusCode(500)
+			}
+	*/
+
+	if err := amqp.AMQPSend(amqp.DefaultQueueName, amqp.DefaultContentType, ctx.PostBody()); err != nil {
 		ctx.SetStatusCode(200)
 	} else {
-		if err := json.Unmarshal(ctx.PostBody(), &httpDeviceDataChanged); err == nil {
-			log.Debugf("%+v", httpDeviceDataChanged)
-			utils.LogNoticeToFile(string(ctx.PostBody()))
-			ctx.SetStatusCode(200)
-		} else {
-			log.Error("CallBackDeviceDataChanged Error! ", err)
-			ctx.SetStatusCode(500)
-		}
+		ctx.SetStatusCode(500)
 	}
 
 	fmt.Fprint(ctx)

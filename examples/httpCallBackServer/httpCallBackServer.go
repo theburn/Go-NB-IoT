@@ -4,6 +4,7 @@ import (
 	"flag"
 	"time"
 
+	"Go-NB-IoT/amqp"
 	"Go-NB-IoT/api"
 	"Go-NB-IoT/configure"
 	log "Go-NB-IoT/logging"
@@ -40,6 +41,8 @@ func main() {
 	// output system info
 	log.Info("-----------------START----------------")
 	log.Info("start go-nb-iot: ", version)
+	amqp.InitAMQP()
+	amqp.InitQueue(amqp.DefaultQueueName)
 
 	api.Run()
 

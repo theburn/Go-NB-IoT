@@ -1,5 +1,5 @@
-hash: 6628535ae6982a96b4b022f1b7a83d4de8b0a1dcc1f2160239299cc8f8e705d3
-updated: 2019-03-24T16:15:55.128571286+08:00
+hash: db7b825683add7c7689c6ffd396a6fe42edfcfd213615edefeaab19e41c07634
+updated: 2019-04-29T13:51:19.273047312+08:00
 imports:
 - name: github.com/buaazp/fasthttprouter
   version: ade4e2031af3aed7fffd241084aad80a58faf421
@@ -11,6 +11,8 @@ imports:
   - zlib
 - name: github.com/klauspost/cpuid
   version: ae7887de9fa5d2db4eaa8174a7eff2c1ac00f2da
+- name: github.com/streadway/amqp
+  version: 75d898a42a940fbc854dfd1a4199eabdc00cf024
 - name: github.com/valyala/bytebufferpool
   version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
 - name: github.com/valyala/fasthttp

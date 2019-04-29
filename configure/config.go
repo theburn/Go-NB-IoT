@@ -20,7 +20,10 @@ import (
         "iot_host": "https://180.101.147.89:8743",
         "app_id": "<AppID>",
         "secret": "<SECRET>"
-    }
+    },
+	"amqp_param" :{
+		"amqp_url":"amqp://user:pass@127.0.0.1:5672/"
+	}
 }
 
 */
@@ -38,9 +41,14 @@ type ServerParam struct {
 	StaticPath string `json:"static_path"`
 }
 
+type AMQPParam struct {
+	AMQPURL string `json:"amqp_url"`
+}
+
 type Config struct {
 	ReqParam    ReqParam    `json:"req_param"`
 	ServerParam ServerParam `json:"server_param"`
+	AMQPParam   AMQPParam   `json:"amqp_param"`
 }
 
 var NBIoTConfig Config

@@ -5,6 +5,7 @@ import (
 	log "Go-NB-IoT/logging"
 	"crypto/tls"
 	"encoding/json"
+	"sync"
 	"time"
 
 	"github.com/valyala/fasthttp"
@@ -14,6 +15,7 @@ type NBHttpClient struct {
 	client   *fasthttp.Client
 	createAt time.Time
 	authInfo loginResponse
+	rwLock   sync.RWMutex
 }
 
 type loginResponse struct {
@@ -76,6 +78,9 @@ func (c *NBHttpClient) Login() error {
 		return err
 	}
 
+	c.rwLock.Lock()
+	defer c.rwLock.Unlock()
+
 	if err := json.Unmarshal(resp.Body(), &c.authInfo); err != nil {
 		log.Errorf("resp body unmarshal failed! %s, %s", string(resp.Body()), err)
 		return err
@@ -91,11 +96,13 @@ func (c *NBHttpClient) Login() error {
 
 func (c *NBHttpClient) RefreshToken() error {
 
+	c.rwLock.RLock()
 	jsonArgs := map[string]string{
 		"appId":        configure.NBIoTConfig.ReqParam.AppID,
 		"secret":       configure.NBIoTConfig.ReqParam.Secret,
 		"refreshToken": c.authInfo.RefreshToken,
 	}
+	c.rwLock.RUnlock()
 
 	reqBody, _ := json.Marshal(jsonArgs)
 
@@ -111,6 +118,9 @@ func (c *NBHttpClient) RefreshToken() error {
 		log.Error("Refresh is Failed!", err)
 		return err
 	}
+
+	c.rwLock.Lock()
+	defer c.rwLock.Unlock()
 
 	if err := json.Unmarshal(resp.Body(), &c.authInfo); err != nil {
 		log.Errorf("resp body unmarshal failed! %s, %s", string(resp.Body()), err)
@@ -128,6 +138,9 @@ func (c *NBHttpClient) RefreshToken() error {
 func (c *NBHttpClient) tokenIsExpire() bool {
 
 	// if the time of token is  less than 5 min.  refresh it.
+	c.rwLock.RLock()
+	defer c.rwLock.RUnlock()
+
 	if int64(time.Now().Sub(c.createAt).Seconds())+300 > c.authInfo.ExpiresIn {
 		return true
 	}
