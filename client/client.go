@@ -1,8 +1,8 @@
 package client
 
 import (
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 	"crypto/tls"
 	"encoding/json"
 	"sync"

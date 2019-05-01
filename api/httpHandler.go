@@ -1,9 +1,9 @@
 package api
 
 import (
-	"Go-NB-IoT/amqp"
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/amqp"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -44,12 +44,14 @@ func CallBackDeviceDataChanged(ctx *fasthttp.RequestCtx) {
 	*/
 
 	if err := amqp.AMQPSend(amqp.DefaultQueueName, amqp.DefaultContentType, ctx.PostBody()); err != nil {
-		ctx.SetStatusCode(200)
-	} else {
+		log.Errorf("amqp send error:", err.Error())
 		ctx.SetStatusCode(500)
+	} else {
+		ctx.SetStatusCode(200)
 	}
 
 	fmt.Fprint(ctx)
+	return
 }
 
 func GetServerLogs(ctx *fasthttp.RequestCtx) {

@@ -1,7 +1,7 @@
 package configure
 
 import (
-	log "Go-NB-IoT/logging"
+	log "github.com/theburn/Go-NB-IoT/logging"
 	"encoding/json"
 	"io/ioutil"
 )
@@ -12,7 +12,7 @@ import (
 {
     "server_param" {
         "listen_port":  "9880",
-		"static_path": "/usr/local/Go-NB-IoT/static"
+		"static_path": "/usr/local/github.com/theburn/Go-NB-IoT/static"
     },
     "req_param" : {
         "cert_file": "certs/server.crt",

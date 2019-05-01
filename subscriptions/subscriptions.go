@@ -1,9 +1,9 @@
 package subscriptions
 
 import (
-	"Go-NB-IoT/client"
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/client"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 	"encoding/json"
 	"fmt"
 )

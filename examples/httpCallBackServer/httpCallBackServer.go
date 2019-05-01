@@ -4,10 +4,10 @@ import (
 	"flag"
 	"time"
 
-	"Go-NB-IoT/amqp"
-	"Go-NB-IoT/api"
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/amqp"
+	"github.com/theburn/Go-NB-IoT/api"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 )
 
 var (
@@ -41,8 +41,16 @@ func main() {
 	// output system info
 	log.Info("-----------------START----------------")
 	log.Info("start go-nb-iot: ", version)
-	amqp.InitAMQP()
-	amqp.InitQueue(amqp.DefaultQueueName)
+
+	if err := amqp.InitAMQP(); err != nil {
+		log.Errorf("amqp init amqp error: ", err.Error())
+	}
+
+	if err := amqp.InitQueue(amqp.DefaultQueueName); err != nil {
+		log.Errorf("amqp init Queue error: ", err.Error())
+	}
+
+	log.Info("amqp init success..!")
 
 	api.Run()
 

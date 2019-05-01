@@ -1,8 +1,8 @@
 package amqp
 
 import (
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 	"time"
 
 	"github.com/streadway/amqp"
@@ -81,6 +81,7 @@ func InitQueue(queueName string) error {
 func AMQPSend(queueName, contentType string, v []byte) error {
 	// No Check Queue is exists
 	// Fixme ?
+	log.Infof(">>> queue: %s AMQPSend ...", queueName)
 	return amqpChannel.Publish(
 		"",        // examqpChannelange
 		queueName, // routing key
@@ -95,6 +96,8 @@ func AMQPSend(queueName, contentType string, v []byte) error {
 func AMQPRecv(queueName string) (<-chan amqp.Delivery, error) {
 	// No Check Queue is exists
 	// Fixme ?
+
+	log.Infof(">>> queue: %s AMQPRecv ...", queueName)
 	return amqpChannel.Consume(
 		queueName, // queue
 		"",        // consumer

@@ -1,8 +1,8 @@
 package api
 
 import (
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 
 	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
@@ -25,6 +25,9 @@ func Run() error {
 	apiRouter.GET("/static/*filepath", ServStatic)
 	apiRouter.GET("/logs", GetServerLogs)
 
-	err := fasthttp.ListenAndServe(ListenPort, apiRouter.Handler)
-	return err
+	if err := fasthttp.ListenAndServe(ListenPort, apiRouter.Handler); err != nil {
+		log.Error(err)
+		return err
+	}
+	return nil
 }

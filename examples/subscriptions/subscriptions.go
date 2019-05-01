@@ -5,11 +5,11 @@ import (
 	"flag"
 	"time"
 
-	"Go-NB-IoT/client"
-	"Go-NB-IoT/configure"
-	log "Go-NB-IoT/logging"
-	"Go-NB-IoT/subscriptions"
-	"Go-NB-IoT/utils"
+	"github.com/theburn/Go-NB-IoT/client"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/subscriptions"
+	"github.com/theburn/Go-NB-IoT/utils"
 )
 
 var (

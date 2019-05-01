@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"Go-NB-IoT/client"
-	"Go-NB-IoT/configure"
-	"Go-NB-IoT/device"
-	log "Go-NB-IoT/logging"
+	"github.com/theburn/Go-NB-IoT/client"
+	"github.com/theburn/Go-NB-IoT/configure"
+	"github.com/theburn/Go-NB-IoT/device"
+	log "github.com/theburn/Go-NB-IoT/logging"
 )
 
 var (
