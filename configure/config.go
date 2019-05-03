@@ -1,9 +1,10 @@
 package configure
 
 import (
-	log "github.com/theburn/Go-NB-IoT/logging"
 	"encoding/json"
 	"io/ioutil"
+
+	log "github.com/theburn/Go-NB-IoT/logging"
 )
 
 /* from gwuhaolin/livego configure */
@@ -43,6 +44,7 @@ type ServerParam struct {
 
 type AMQPParam struct {
 	AMQPURL string `json:"amqp_url"`
+	WorkNum int    `json:"work_num"`
 }
 
 type Config struct {
