@@ -20,7 +20,7 @@ func Run(listenPort, staticPath string) error {
 	fsHandler = fasthttp.FSHandler(staticPath, 1)
 	ListenPort := ":" + listenPort
 
-	apiRouter.POST("/api/callback/v1.5.1/deviceDataChanged", CallBackDeviceDataChanged)
+	apiRouter.POST("/api/callback/v1.5.1/:subcribeNotifyType", CallBackHandler)
 	apiRouter.GET("/static/*filepath", ServStatic)
 	apiRouter.GET("/logs", GetServerLogs)
 

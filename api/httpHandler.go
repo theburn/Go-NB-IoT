@@ -27,24 +27,16 @@ type deviceDataChanged struct {
 	Service    deviceServiceData `json:"service"`
 }
 
-func CallBackDeviceDataChanged(ctx *fasthttp.RequestCtx) {
-
-	//var httpDeviceDataChanged deviceDataChanged
-
+func CallBackHandler(ctx *fasthttp.RequestCtx) {
 	log.Debug(">>>> String", string(ctx.PostBody()))
+	v, ok := ctx.UserValue("subcribeNotifyType").(string)
+	if !ok {
+		ctx.SetStatusCode(500)
+		fmt.Fprint(ctx)
+		return
+	}
 
-	/*
-		// Telecom Test
-			if string(ctx.PostBody()) == "push success." {
-				log.Info("Test Push Success! ")
-				ctx.SetStatusCode(200)
-			} else {
-				amqpQueue.AMQPSend(amqpQueue.DefaultQueueName, amqpQueue.DefaultContentType, ctx.PostBody())
-				ctx.SetStatusCode(500)
-			}
-	*/
-
-	if err := amqpQueue.AMQPSend(amqpQueue.DefaultQueueName, amqpQueue.ContentTypeDeviceDataChanged, ctx.PostBody()); err != nil {
+	if err := amqpQueue.AMQPSend(amqpQueue.DefaultQueueName, v, ctx.PostBody()); err != nil {
 		log.Errorf("amqpQueue send error:", err.Error())
 		ctx.SetStatusCode(500)
 	} else {
