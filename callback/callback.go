@@ -1,5 +1,7 @@
 package callback
 
+import "encoding/json"
+
 const (
 	ServiceTypeTransmission = "Transmission"
 	ServiceTypeConnectivity = "Connectivity"
@@ -7,10 +9,10 @@ const (
 
 // 2.6.4. deviceDataChanged
 type DeviceServiceData struct {
-	ServiceId   string      `json:"serviceId"`
-	ServiceType string      `json:"serviceType"`
-	Data        interface{} `json:"data"`
-	EventTime   string      `json:"eventTime"`
+	ServiceId   string          `json:"serviceId"`
+	ServiceType string          `json:"serviceType"`
+	Data        json.RawMessage `json:"data"`
+	EventTime   string          `json:"eventTime"`
 }
 
 type ConnectivityData struct {
