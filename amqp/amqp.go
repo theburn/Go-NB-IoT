@@ -1,9 +1,10 @@
 package amqp
 
 import (
+	"time"
+
 	"github.com/theburn/Go-NB-IoT/configure"
 	log "github.com/theburn/Go-NB-IoT/logging"
-	"time"
 
 	"github.com/streadway/amqp"
 )
@@ -93,7 +94,7 @@ func AMQPSend(queueName, contentType string, v []byte) error {
 		})
 }
 
-func AMQPRecv(queueName string) (<-chan amqp.Delivery, error) {
+func GetAMQPRecv(queueName string) (<-chan amqp.Delivery, error) {
 	// No Check Queue is exists
 	// Fixme ?
 
