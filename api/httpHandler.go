@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"io/ioutil"
 
-	"github.com/theburn/Go-NB-IoT/amqp"
+	"github.com/theburn/Go-NB-IoT/amqpQueue"
 	"github.com/theburn/Go-NB-IoT/configure"
 	log "github.com/theburn/Go-NB-IoT/logging"
 
@@ -39,13 +39,13 @@ func CallBackDeviceDataChanged(ctx *fasthttp.RequestCtx) {
 				log.Info("Test Push Success! ")
 				ctx.SetStatusCode(200)
 			} else {
-				amqp.AMQPSend(amqp.DefaultQueueName, amqp.DefaultContentType, ctx.PostBody())
+				amqpQueue.AMQPSend(amqpQueue.DefaultQueueName, amqpQueue.DefaultContentType, ctx.PostBody())
 				ctx.SetStatusCode(500)
 			}
 	*/
 
-	if err := amqp.AMQPSend(amqp.DefaultQueueName, amqp.ContentTypeDeviceDataChanged, ctx.PostBody()); err != nil {
-		log.Errorf("amqp send error:", err.Error())
+	if err := amqpQueue.AMQPSend(amqpQueue.DefaultQueueName, amqpQueue.ContentTypeDeviceDataChanged, ctx.PostBody()); err != nil {
+		log.Errorf("amqpQueue send error:", err.Error())
 		ctx.SetStatusCode(500)
 	} else {
 		ctx.SetStatusCode(200)
