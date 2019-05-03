@@ -30,5 +30,5 @@ type CallbackDeviceDataChanged struct {
 	DeviceId   string            `json:"deviceId"`
 	GatewayId  string            `json:"gatewayId"`
 	RequestId  string            `json:"requestId"`
-	service    DeviceServiceData `json:"service"`
+	Service    DeviceServiceData `json:"service"`
 }
