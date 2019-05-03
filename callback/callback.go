@@ -9,7 +9,7 @@ const (
 type DeviceServiceData struct {
 	ServiceId   string `json:"serviceId"`
 	ServiceType string `json:"serviceType"`
-	Data        map[string]interface{}
+	Data        interface{}
 	EventTime   string `json:"eventTime"`
 }
 
