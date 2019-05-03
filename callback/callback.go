@@ -1,8 +1,8 @@
 package callback
 
 const (
-	Transmission = "Transmission"
-	Connectivity = "Connectivity"
+	ServiceTypeTransmission = "Transmission"
+	ServiceTypeConnectivity = "Connectivity"
 )
 
 // 2.6.4. deviceDataChanged
