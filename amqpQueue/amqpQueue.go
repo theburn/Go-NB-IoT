@@ -15,10 +15,10 @@ var amqpQueue amqp.Queue
 const (
 	DefaultQueueName             = "NBIoTCallback"
 	DefaultContentType           = "application/json"
-	ContentTypeDeviceDataChanged = "DeviceDataChanged"
-	ContentTypeDeviceAdded       = "DeviceAdded"
-	ContentTypeBindDevice        = "BindDevice"
-	ContentTypeDeviceInfoChanged = "DeviceInfoChanged"
+	ContentTypeDeviceDataChanged = "deviceDataChanged"
+	ContentTypeDeviceAdded       = "deviceAdded"
+	ContentTypeBindDevice        = "bindDevice"
+	ContentTypeDeviceInfoChanged = "deviceInfoChanged"
 )
 
 func InitAMQP(amqp_url string) error {
