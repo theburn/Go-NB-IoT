@@ -7,10 +7,10 @@ const (
 
 // 2.6.4. deviceDataChanged
 type DeviceServiceData struct {
-	ServiceId   string `json:"serviceId"`
-	ServiceType string `json:"serviceType"`
-	Data        interface{}
-	EventTime   string `json:"eventTime"`
+	ServiceId   string      `json:"serviceId"`
+	ServiceType string      `json:"serviceType"`
+	Data        interface{} `json:"data"`
+	EventTime   string      `json:"eventTime"`
 }
 
 type ConnectivityData struct {
