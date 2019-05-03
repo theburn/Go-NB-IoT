@@ -1,12 +1,13 @@
 package api
 
 import (
-	"github.com/theburn/Go-NB-IoT/amqp"
-	"github.com/theburn/Go-NB-IoT/configure"
-	log "github.com/theburn/Go-NB-IoT/logging"
 	"fmt"
 	"html/template"
 	"io/ioutil"
+
+	"github.com/theburn/Go-NB-IoT/amqp"
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 
 	"github.com/valyala/fasthttp"
 )
@@ -43,7 +44,7 @@ func CallBackDeviceDataChanged(ctx *fasthttp.RequestCtx) {
 			}
 	*/
 
-	if err := amqp.AMQPSend(amqp.DefaultQueueName, amqp.DefaultContentType, ctx.PostBody()); err != nil {
+	if err := amqp.AMQPSend(amqp.DefaultQueueName, amqp.ContentTypeDeviceDataChanged, ctx.PostBody()); err != nil {
 		log.Errorf("amqp send error:", err.Error())
 		ctx.SetStatusCode(500)
 	} else {
