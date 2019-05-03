@@ -3,7 +3,6 @@ package amqpQueue
 import (
 	"time"
 
-	"github.com/theburn/Go-NB-IoT/configure"
 	log "github.com/theburn/Go-NB-IoT/logging"
 
 	"github.com/streadway/amqp"
@@ -22,9 +21,8 @@ const (
 	ContentTypeDeviceInfoChanged = "DeviceInfoChanged"
 )
 
-func InitAMQP() error {
+func InitAMQP(amqp_url string) error {
 	var err error
-	amqp_url := configure.NBIoTConfig.AMQPParam.AMQPURL
 	log.Debugf("amqp connect to %s", amqp_url)
 	dialFlag := false
 	// reconnect 10 times
