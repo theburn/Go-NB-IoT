@@ -34,3 +34,38 @@ type CallbackDeviceDataChanged struct {
 	RequestId  string            `json:"requestId"`
 	Service    DeviceServiceData `json:"service"`
 }
+
+// 2.6.1 deviceAdded
+type DeviceInfoData struct {
+	DeviceType        string `json:"deviceType"`
+	SupportedSecurity string `json:"supportedSecurity"`
+	IsSecurity        string `json:"isSecurity"`
+	SwVersion         string `json:"swVersion"`
+	SerialNumber      string `json:"serialNumber"`
+	ManufacturerName  string `json:"manufacturerName"`
+	SignalStrength    string `json:"signalStrength"`
+	ManufacturerId    string `json:"manufacturerId"`
+	Description       string `json:"description"`
+	StatusDetail      string `json:"statusDetail"`
+	Mute              string `json:"mute"`
+	ProtocolType      string `json:"protocolType"`
+	Mac               string `json:"mac"`
+	HwVersion         string `json:"hwVersion"`
+	SigVersion        string `json:"sigVersion"`
+	BridgeId          string `json:"bridgeId"`
+	Name              string `json:"name"`
+	Location          string `json:"location"`
+	Model             string `json:"model"`
+	FwVersion         string `json:"fwVersion"`
+	NodeId            string `json:"nodeId"`
+	Status            string `json:"status"`
+	BatteryLevel      string `json:"batteryLevel"`
+}
+
+type CallbackDeviceAdded struct {
+	NotifyType string         `json:"notifyType"`
+	DeviceId   string         `json:"deviceId"`
+	GatewayId  string         `json:"gatewayId"`
+	NodeType   string         `json:"nodeType"`
+	DeviceInfo DeviceInfoData `json:"deviceInfo"`
+}
