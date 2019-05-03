@@ -1,6 +1,9 @@
 package callback
 
-var ()
+const (
+	Transmission = "Transmission"
+	Connectivity = "Connectivity"
+)
 
 // 2.6.4. deviceDataChanged
 type DeviceServiceData struct {
