@@ -30,7 +30,6 @@ type CallbackDeviceDataChanged struct {
 	Service    DeviceServiceData `json:"service"`
 }
 
-// 2.6.1 deviceAdded
 type DeviceInfoData struct {
 	DeviceType        string `json:"deviceType"`
 	SupportedSecurity string `json:"supportedSecurity"`
@@ -57,6 +56,7 @@ type DeviceInfoData struct {
 	BatteryLevel      string `json:"batteryLevel"`
 }
 
+// 2.6.1 deviceAdded
 type CallbackDeviceAdded struct {
 	NotifyType string         `json:"notifyType"`
 	DeviceId   string         `json:"deviceId"`
@@ -65,9 +65,18 @@ type CallbackDeviceAdded struct {
 	DeviceInfo DeviceInfoData `json:"deviceInfo"`
 }
 
+// 2.6.2 bindDevice
 type CallbackBindDevice struct {
 	NotifyType string         `json:"notifyType"`
 	DeviceId   string         `json:"deviceId"`
 	ResultCode string         `json:"resultCode"`
+	DeviceInfo DeviceInfoData `json:"deviceInfo"`
+}
+
+// 2.6.3 deviceInfoChanged
+type CallbackDeviceInfoChanged struct {
+	NotifyType string         `json:"notifyType"`
+	DeviceId   string         `json:"deviceId"`
+	GatewayId  string         `json:"gatewayId"`
 	DeviceInfo DeviceInfoData `json:"deviceInfo"`
 }
