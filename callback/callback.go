@@ -64,3 +64,10 @@ type CallbackDeviceAdded struct {
 	NodeType   string         `json:"nodeType"`
 	DeviceInfo DeviceInfoData `json:"deviceInfo"`
 }
+
+type CallbackBindDevice struct {
+	NotifyType string         `json:"notifyType"`
+	DeviceId   string         `json:"deviceId"`
+	ResultCode string         `json:"resultCode"`
+	DeviceInfo DeviceInfoData `json:"deviceInfo"`
+}
