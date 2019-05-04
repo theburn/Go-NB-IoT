@@ -11,7 +11,7 @@ const (
 type DeviceServiceData struct {
 	ServiceId   string          `json:"serviceId"`
 	ServiceType string          `json:"serviceType"`
-	Data        json.RawMessage `json:"data"`
+	Data        json.RawMessage `json:"data"` // custom by yourself
 	EventTime   string          `json:"eventTime"`
 }
 
@@ -20,11 +20,6 @@ type ConnectivityData struct {
 	CellID      int `json:"CellID"`
 	SNR         int `json:"SNR"`
 	Battery     int `json:"battery"`
-}
-
-type LiquidTransmissionData struct {
-	Tank_ID_sign   int `json:"Tank_ID_sign"`
-	Liquid_precent int `json:"liquid_precent"`
 }
 
 type CallbackDeviceDataChanged struct {
