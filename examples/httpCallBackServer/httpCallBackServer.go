@@ -52,6 +52,6 @@ func main() {
 
 	log.Info("amqpQueue init success..!")
 
-	api.Run("9999", "./static")
+	api.Run("19999", "./static")
 
 }
