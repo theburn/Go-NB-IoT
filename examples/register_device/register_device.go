@@ -16,6 +16,7 @@ var (
 	configfilename = flag.String("cfgfile", "conf/config.json", "live configure filename")
 	loglevel       = flag.String("loglevel", "info", "log level")
 	logfile        = flag.String("logfile", "logs/go-nb-iot.log", "log file path")
+	testIMEI       = flag.String("s", "359369084483425", "log file path")
 )
 
 func init() {
@@ -44,8 +45,8 @@ func main() {
 	log.Info("start go-nb-iot: ", version)
 
 	d := device.DeviceCredentials{
-		VerifyCode: "359369080878768",
-		NodeId:     "359369080878768",
+		VerifyCode: *testIMEI,
+		NodeId:     *testIMEI,
 		EndUserId:  "112233445",
 		Timeout:    0,
 		IsSecure:   false,
@@ -60,7 +61,7 @@ func main() {
 	}
 
 	p := device.DeviceProfile{
-		Name:             "SZDTestDevice001",
+		Name:             "SZDTestDevice_" + *testIMEI,
 		EndUser:          "SZD",
 		Mute:             "FALSE",
 		ManufacturerID:   "SZDTS001",

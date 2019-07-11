@@ -46,7 +46,7 @@ func main() {
 
 	s := subscriptions.SubscriptionsBusinessReq{}
 	s.AppId = configure.NBIoTConfig.ReqParam.AppID
-	s.CallbackUrl = "https://120.132.20.48:9880/api/callback/v1.5.1/deviceDataChanged"
+	s.CallbackUrl = "https://test-api.lng-tech.net:9999/api/callback/v1.5.1/deviceDataChanged"
 	s.NotifyType = subscriptions.NodeTypeDict.DeviceDatasChanged
 
 	if c, err := client.NewNBHttpClient(); err != nil {
