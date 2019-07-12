@@ -61,13 +61,13 @@ func main() {
 	}
 
 	p := device.DeviceProfile{
-		Name:             "SZDTestDevice_" + *testIMEI,
+		Name:             *testIMEI,
 		EndUser:          "SZD",
 		Mute:             "FALSE",
-		ManufacturerID:   "SZDTS001",
+		ManufacturerID:   "b8d0d1e221fc499e9bab468a673ab5bb",
 		ManufacturerName: "SZD",
-		DeviceType:       "Water",
-		Model:            "SZDTSDevice",
+		DeviceType:       "LiquidLevel",
+		Model:            "ZBX_3A",
 		Location:         "Shanghai",
 		ProtocolType:     "CoAP",
 		DeviceConfig:     deviceConfig,

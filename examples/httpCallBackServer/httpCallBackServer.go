@@ -46,7 +46,7 @@ func main() {
 		log.Errorf("amqpQueue init amqpQueue error: ", err.Error())
 	}
 
-	if err := amqpQueue.InitQueue(amqpQueue.DefaultQueueName); err != nil {
+	if err := amqpQueue.InitQueue("BIoTCallback-Telecom"); err != nil {
 		log.Errorf("amqpQueue init Queue error: ", err.Error())
 	}
 
