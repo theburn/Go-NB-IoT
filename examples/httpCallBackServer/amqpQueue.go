@@ -1,4 +1,4 @@
-package amqpQueue
+package main
 
 import (
 	"time"
