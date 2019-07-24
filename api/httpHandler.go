@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"io/ioutil"
 
-	"github.com/theburn/Go-NB-IoT/amqpQueue"
 	"github.com/theburn/Go-NB-IoT/configure"
 	log "github.com/theburn/Go-NB-IoT/logging"
 
@@ -27,6 +26,16 @@ type deviceDataChanged struct {
 	Service    deviceServiceData `json:"service"`
 }
 
+type IHandle interface {
+	NotifyHandler(notifyType string, postBody []byte) error
+}
+
+var DoHandle IHandle
+
+func InitDoHandle(i IHandle) {
+	DoHandle = i
+}
+
 func CallBackHandler(ctx *fasthttp.RequestCtx) {
 	log.Debug(">>>> String", string(ctx.PostBody()))
 	v, ok := ctx.UserValue("subcribeNotifyType").(string)
@@ -36,7 +45,7 @@ func CallBackHandler(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	if err := amqpQueue.AMQPSend(amqpQueue.DefaultQueueName, v, ctx.PostBody()); err != nil {
+	if err := DoHandle.NotifyHandler(v, ctx.PostBody()); err != nil {
 		log.Errorf("amqpQueue send error:", err.Error())
 		ctx.SetStatusCode(500)
 	} else {

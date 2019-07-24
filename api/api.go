@@ -21,8 +21,9 @@ func Run(listenPort, staticPath string) error {
 	ListenPort := ":" + listenPort
 
 	apiRouter.POST("/api/callback/v1.5.1/:subcribeNotifyType", CallBackHandler)
-	apiRouter.GET("/static/*filepath", ServStatic)
-	apiRouter.GET("/logs", GetServerLogs)
+	// ----- only for test -----
+	//apiRouter.GET("/static/*filepath", ServStatic)
+	//apiRouter.GET("/logs", GetServerLogs)
 
 	if err := fasthttp.ListenAndServe(ListenPort, apiRouter.Handler); err != nil {
 		log.Error(err)
