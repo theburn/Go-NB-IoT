@@ -46,7 +46,7 @@ func CallBackHandler(ctx *fasthttp.RequestCtx) {
 	}
 
 	if err := DoHandle.NotifyHandler(v, ctx.PostBody()); err != nil {
-		log.Errorf("amqpQueue send error:", err.Error())
+		log.Errorf("NotifyHandler error:", err.Error())
 		ctx.SetStatusCode(500)
 	} else {
 		ctx.SetStatusCode(200)
