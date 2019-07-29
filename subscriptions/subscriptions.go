@@ -1,11 +1,12 @@
 package subscriptions
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/theburn/Go-NB-IoT/client"
 	"github.com/theburn/Go-NB-IoT/configure"
 	log "github.com/theburn/Go-NB-IoT/logging"
-	"encoding/json"
-	"fmt"
 )
 
 type NodeType struct {
@@ -57,6 +58,13 @@ type SubscriptionsBusinessResp struct {
 	SubscriptionId string `json:"subscriptionId"`
 	CallbackUrl    string `json:"callbackUrl"`
 	NotifyType     string `json:"notifyType"`
+}
+
+type SubscriptionsBusinessBatchQueryResp struct {
+	TotalCount    int                         `json:"totalCount"`
+	PageNo        int                         `json:"pageNo"`
+	PageSize      int                         `json:"pageSize"`
+	Subscriptions []SubscriptionsBusinessResp `json:"subscriptions"`
 }
 
 func (s *SubscriptionsBusinessReq) SubscriptionsBusiness(c *client.NBHttpClient) (*SubscriptionsBusinessResp, error) {
@@ -115,5 +123,32 @@ func (s *SubscriptionsBusinessResp) SubscriptionsQuerySingle(c *client.NBHttpCli
 	}
 
 	log.Debugf("+%v", string(reqRespParam.RespBody))
+	return &subResp, err
+}
+
+func SubscriptionsQueryBatch(c *client.NBHttpClient, notifyType string) (*SubscriptionsBusinessBatchQueryResp, error) {
+
+	reqRespParam := client.ReqRespParam{}
+	reqRespParam.URL = fmt.Sprintf(configure.NBIoTConfig.ReqParam.IoTHost+subQueryBatchURI,
+		configure.NBIoTConfig.ReqParam.AppID, notifyType, 0, 20)
+
+	reqRespParam.Method = "GET"
+	reqRespParam.ContentType = "application/json"
+
+	var err error
+
+	if err = c.Request(&reqRespParam); err != nil {
+		log.Error("Request error!", err)
+		return nil, err
+	}
+
+	var subResp SubscriptionsBusinessBatchQueryResp
+
+	if err = json.Unmarshal(reqRespParam.RespBody, &subResp); err != nil {
+		log.Error("json SubscriptionsBusinessResp Unmarshal Failed, ", reqRespParam.RespBody, err)
+		return nil, err
+	}
+
+	log.Debugf("+%v", subResp)
 	return &subResp, err
 }
