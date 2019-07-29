@@ -1,12 +1,13 @@
 package client
 
 import (
-	"github.com/theburn/Go-NB-IoT/configure"
-	log "github.com/theburn/Go-NB-IoT/logging"
 	"crypto/tls"
 	"encoding/json"
 	"sync"
 	"time"
+
+	"github.com/theburn/Go-NB-IoT/configure"
+	log "github.com/theburn/Go-NB-IoT/logging"
 
 	"github.com/valyala/fasthttp"
 )
@@ -27,11 +28,12 @@ type loginResponse struct {
 }
 
 type ReqRespParam struct {
-	URL         string
-	Method      string `default:"POST"`
-	ContentType string `default:"application/json"`
-	ReqBody     []byte
-	RespBody    []byte
+	URL            string
+	Method         string `default:"POST"`
+	ContentType    string `default:"application/json"`
+	ReqBody        []byte
+	RespBody       []byte
+	RespStatusCode int
 }
 
 func NewNBHttpClient() (*NBHttpClient, error) {
@@ -170,6 +172,7 @@ func (c *NBHttpClient) Request(reqRespParam *ReqRespParam) error {
 		return err
 	}
 
+	reqRespParam.RespStatusCode = resp.StatusCode()
 	reqRespParam.RespBody = resp.Body()
 	return nil
 }

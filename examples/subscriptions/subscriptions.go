@@ -65,7 +65,7 @@ func main() {
 
 	switch *notifyType {
 	case "deviceDataChanged":
-		s.NotifyType = subscriptions.NodeTypeDict.DeviceDatasChanged
+		s.NotifyType = subscriptions.NodeTypeDict.DeviceDataChanged
 	case "deviceAdded":
 		s.NotifyType = subscriptions.NodeTypeDict.DeviceAdded
 	case "bindDevice":

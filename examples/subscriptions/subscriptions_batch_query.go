@@ -41,6 +41,8 @@ func init() {
 	log.SetLevelByString(*loglevel)
 }
 
+var NotifyTypeList []string = []string{"bindDevice", "deviceAdded", "deviceInfoChanged", "deviceDataChanged", "deviceDatasChanged", "deviceDeleted", "serviceInfoChanged", "ruleEvent", "deviceModelAdded", "deviceModelDeleted"}
+
 func main() {
 	defer func() {
 		if r := recover(); r != nil {
@@ -63,11 +65,14 @@ func main() {
 		log.Error("New Client error", err)
 	} else {
 		c.Login()
-		resp2, _ := subscriptions.SubscriptionsQueryBatch(c, *notifyType)
-		data, _ := json.Marshal(resp2)
-		utils.LogNoticeToFile(string(data))
+		for _, v := range NotifyTypeList {
+			resp2, _ := subscriptions.SubscriptionsQueryBatch(c, v)
+			data, _ := json.Marshal(resp2)
+			utils.LogNoticeToFile(string(data))
 
-		fmt.Printf("data  : %+v\n", string(data))
+			fmt.Printf("%s  : %+v\n", v, string(data))
+
+		}
 
 	}
 

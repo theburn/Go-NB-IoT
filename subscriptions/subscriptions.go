@@ -2,7 +2,9 @@ package subscriptions
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"strconv"
 
 	"github.com/theburn/Go-NB-IoT/client"
 	"github.com/theburn/Go-NB-IoT/configure"
@@ -151,4 +153,29 @@ func SubscriptionsQueryBatch(c *client.NBHttpClient, notifyType string) (*Subscr
 
 	log.Debugf("+%v", subResp)
 	return &subResp, err
+}
+
+func SubscriptionsDeleteBatch(c *client.NBHttpClient, notifyType, callbackUrl string) error {
+
+	reqRespParam := client.ReqRespParam{}
+	reqRespParam.URL = fmt.Sprintf(configure.NBIoTConfig.ReqParam.IoTHost+subDeleteBatchURI,
+		configure.NBIoTConfig.ReqParam.AppID, notifyType, callbackUrl, "http")
+
+	reqRespParam.Method = "DELETE"
+	reqRespParam.ContentType = "application/json"
+
+	var err error
+
+	if err = c.Request(&reqRespParam); err != nil {
+		log.Error("Request error!", err)
+		return err
+	}
+
+	if reqRespParam.RespStatusCode == 204 {
+		return nil
+	} else {
+		log.Errorf("status code: %d\n", reqRespParam.RespStatusCode)
+		return errors.New("code error, code: " + strconv.Itoa(reqRespParam.RespStatusCode))
+	}
+
 }
