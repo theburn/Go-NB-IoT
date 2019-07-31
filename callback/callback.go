@@ -2,11 +2,6 @@ package callback
 
 import "encoding/json"
 
-const (
-	ServiceTypeTransmission = "Transmission"
-	ServiceTypeConnectivity = "Connectivity"
-)
-
 // 2.6.4. deviceDataChanged
 type DeviceServiceData struct {
 	ServiceId   string          `json:"serviceId"`
