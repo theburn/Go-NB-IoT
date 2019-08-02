@@ -51,7 +51,7 @@ func main() {
 
 	cmdReq := commands.DeviceCreateCmdReq{}
 	cmdReq.DeviceID = *deviceID
-	cmdReq.ExpireTime = 0
+	cmdReq.ExpireTime = 2 * 60 * 60
 	cmdReq.MaxRetransmit = 3
 	cmdReq.Command = commands.CommandDTO{}
 	cmdReq.Command.Method = *method
