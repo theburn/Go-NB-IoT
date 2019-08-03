@@ -42,15 +42,9 @@ type ServerParam struct {
 	StaticPath string `json:"static_path"`
 }
 
-type AMQPParam struct {
-	AMQPURL string `json:"amqp_url"`
-	WorkNum int    `json:"work_num"`
-}
-
 type Config struct {
 	ReqParam    ReqParam    `json:"req_param"`
 	ServerParam ServerParam `json:"server_param"`
-	AMQPParam   AMQPParam   `json:"amqp_param"`
 }
 
 var NBIoTConfig Config
