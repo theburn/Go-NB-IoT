@@ -3,6 +3,7 @@ package client
 import (
 	"crypto/tls"
 	"encoding/json"
+	"os"
 	"sync"
 	"time"
 
@@ -40,6 +41,8 @@ func NewNBHttpClient() (*NBHttpClient, error) {
 	cert, err := tls.LoadX509KeyPair(configure.NBIoTConfig.ReqParam.CertFile,
 		configure.NBIoTConfig.ReqParam.KeyFile)
 	if err != nil {
+		dir, _ := os.Getwd()
+		log.Errorf("Load certs/keys error: %s | %s | %s | %s", err.Error(), dir, configure.NBIoTConfig.ReqParam.CertFile, configure.NBIoTConfig.ReqParam.KeyFile)
 		return nil, err
 	}
 
