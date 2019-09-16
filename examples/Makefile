@@ -1,5 +1,5 @@
 all:
-	cd ./httpCallBackServer && go build
+	#cd ./httpCallBackServer && go build
 	cd ./register_device && go build
 	cd ./subscriptions && go build -o subscriptions subscriptions.go
 	cd ./subscriptions && go build -o subscriptions_batch_query subscriptions_batch_query.go
